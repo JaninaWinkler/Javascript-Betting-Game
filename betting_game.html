@@ -1,10 +1,68 @@
 <!DOCTYPE html>
 <html>
 <header>
-<script src="betting_game.js"></script>
 <script src="jquery-2.2.2.js"></script>
+<script>
+$(document).ready( function() {
+
+function getRandomNumber(min, max) {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+$('#place-bet').on('click', function() { 
+  var userBankroll = $('#userBankroll').text(); 
+  var userValue = parseInt($('#userValue').val());
+  if (userValue < 5 || userValue > 10) {
+    $('#userUpdate').text("Please enter a number between 5 and 10!");
+  }
+  else if (userNumber < 0 || userNumber > 10) {
+    $('#userUpdate').text("Please enter a number between 1 and 10!");
+  }
+  else { 
+    var userNumber = $('#userNumber').val();
+    if (userBankroll > 0) {
+      playGame(userBankroll, userValue, userNumber);
+    }
+    else {
+      $('#userUpdate').text("Sorry, you lose!");
+    }
+  }
+});
+
+function playGame(userBankroll, userValue, userNumber) {
+  var randomNumber = getRandomNumber(0, 10);
+  if (userNumber == randomNumber) {
+    $('#userBankroll').text(userBankroll + userValue);
+    $('#userUpdate').text("Right on!");
+  }
+  else if (userNumber == (randomNumber + 1) || userNumber == (randomNumber -1)) {
+    $('#userBankroll').text(userBankroll);
+    $('#userUpdate').text("So close!");
+  }
+  else {
+    $('#userBankroll').text(userBankroll - userValue);
+    $('#userUpdate').text("No dice!");
+  }
+}
+});  
+</script>
 </header>
 <body>
-
+<div class="container">
+<H1>Bet Your Money</H1>
+<h3>Win or Lose it All in Two Easy Steps...</h3>
+<p id="userUpdate"></p>
+<p>Your bankroll is $<span id="userBankroll">100</span>.</p>
+  <form >
+    <ol>
+      <li>Enter the amount of money you'd like to bet:<input type="text" id="userValue" placeholder="5-10" /></li>
+      <br><li>Enter the number you'd like to bet on: <input type="text" id="userNumber" placeholder="1-10" /></li>
+      <br><button type="button" id="place-bet">Submit Your Bet!</button>
+    </ol>
+  </form>
+</div>
 </body>
 </html>
+
+
+
